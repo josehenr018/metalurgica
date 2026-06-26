@@ -1,5 +1,5 @@
 // ============================================================
-//  STATE
+//  STATE E VARIÁVEIS GERAIS
 // ============================================================
 let cart = [];
 let products = [];
@@ -16,24 +16,29 @@ function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); 
 function load(key, def) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch(e){ return def; } }
 
 // ============================================================
-//  INIT
+//  INIT (COM PROTEÇÃO ANTI-CRASH)
 // ============================================================
 function init() {
   products = load('mm_products', getDefaultProducts());
-  analytics = load('mm_analytics', { visits: 0, cartAdds: 0, orders: 0, productViews: {}, dailyVisits: generateDefaultVisits(), activity: [] });
   
-  if (!analytics.dailyVisits || analytics.dailyVisits.length < 7) analytics.dailyVisits = generateDefaultVisits();
-  if (!analytics.activity) analytics.activity = [];
-
-  analytics.visits++;
-  const today = new Date().toLocaleDateString('pt-BR', {weekday:'short'});
-  const dv = analytics.dailyVisits;
-  const todayEntry = dv.find(d => d.label === today);
-  if (todayEntry) todayEntry.val++; else dv[dv.length-1].val++;
-  if (dv.length > 7) dv.shift();
-
-  logActivity('👁️ Nova visita ao site', 'blue');
-  save('mm_analytics', analytics);
+  // Proteção: Se houver dados antigos corrompidos no navegador, reseta o analytics
+  try {
+    analytics = load('mm_analytics', null);
+    if (!analytics || !analytics.dailyVisits || !Array.isArray(analytics.dailyVisits)) {
+      analytics = { visits: 0, cartAdds: 0, orders: 0, productViews: {}, dailyVisits: generateDefaultVisits(), activity: [] };
+    }
+    
+    analytics.visits++;
+    if (analytics.dailyVisits.length > 0) {
+      analytics.dailyVisits[analytics.dailyVisits.length - 1].val++;
+    }
+    logActivity('👁️ Nova visita ao site', 'blue');
+    save('mm_analytics', analytics);
+  } catch (e) {
+    console.warn('Resetando analytics devido a dados antigos incompativeis.');
+    analytics = { visits: 1, cartAdds: 0, orders: 0, productViews: {}, dailyVisits: generateDefaultVisits(), activity: [] };
+    save('mm_analytics', analytics);
+  }
 
   applyTexts();
   renderCategories();
@@ -219,9 +224,15 @@ function addModalToCart() {
 }
 
 // ============================================================
-//  ADMIN
+//  ADMIN CORRIGIDO PARA GITHUB PAGES
 // ============================================================
-function checkAdmin() { if (window.location.hash === '#admin' || window.location.pathname.endsWith('/admin')) openAdmin(); }
+function checkAdmin() { 
+  // Agora só abre o admin se tiver estritamente #admin no final da URL
+  if (window.location.hash === '#admin') {
+    openAdmin(); 
+  }
+}
+
 window.addEventListener('hashchange', () => { if (window.location.hash === '#admin') openAdmin(); else closeAdmin(); });
 
 function openAdmin() {
@@ -309,7 +320,6 @@ function saveProduct() {
   const icon = document.getElementById('prod-icon').value.trim();
   const badge = document.getElementById('prod-badge').value.trim();
   
-  // Tratando strings de especificações e imagens para virar arrays
   const specsRaw = document.getElementById('prod-specs').value;
   const specs = specsRaw ? specsRaw.split(',').map(s => s.trim()) : [];
   
