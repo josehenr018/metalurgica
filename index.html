@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="site-title">Metalúrgica — Móveis para Atacado</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="announce">🚚 Entrega para toda a região — Pedidos no atacado com melhores preços!</div>
+
+  <nav id="navbar">
+    <div class="logo" id="nav-logo">⚙️ <span id="site-name-nav">MetalMóveis</span></div>
+    <div id="nav-links">
+      <a href="#produtos">Produtos</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <button id="cart-btn" onclick="toggleCart()">
+      🛒 Carrinho <span id="cart-count">0</span>
+    </button>
+  </nav>
+
+  <section id="hero">
+    <h1 id="hero-title">Móveis Metálicos de Alta Durabilidade</h1>
+    <p id="hero-subtitle">Compra no atacado direto da fábrica. Qualidade industrial para seu negócio, escola, escritório ou estabelecimento comercial.</p>
+    <button id="hero-cta" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Ver Catálogo Completo</button>
+  </section>
+
+  <div class="section">
+    <h2 class="section-title">Categorias</h2>
+    <p class="section-sub">Selecione uma categoria para filtrar os produtos</p>
+    <div id="categories-grid"></div>
+  </div>
+
+  <div class="section" id="produtos" style="padding-top:0">
+    <h2 class="section-title">Nossos Produtos</h2>
+    <p class="section-sub" id="products-subtitle">Todos os produtos disponíveis para atacado</p>
+    <div id="products-grid"></div>
+  </div>
+
+  <section id="sobre" id="about-section" class="about-bg">
+    <div class="section" style="max-width:1200px">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2 id="about-title">Tradição e Qualidade em Cada Peça</h2>
+          <p id="about-text1">Somos uma metalúrgica especializada na fabricação de móveis metálicos para uso comercial e industrial. Atendemos atacadistas, revendedores e empresas de toda a região.</p>
+          <p id="about-text2">Nossos produtos passam por rigoroso controle de qualidade, garantindo resistência e acabamento superiores para qualquer ambiente.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-box"><div class="stat-num" id="stat1">+500</div><div class="stat-label">Clientes atendidos</div></div>
+          <div class="stat-box"><div class="stat-num" id="stat2">15</div><div class="stat-label">Anos de mercado</div></div>
+          <div class="stat-box"><div class="stat-num" id="stat3">100%</div><div class="stat-label">Fabricação própria</div></div>
+          <div class="stat-box"><div class="stat-num" id="stat4">24h</div><div class="stat-label">Atendimento</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contato">
+    <p id="footer-text"><strong id="footer-name">MetalMóveis</strong> — Todos os direitos reservados © 2025</p>
+    <p style="margin-top:.5rem" id="footer-phone">📞 Fone: (00) 00000-0000 | 📍 Sua cidade, SP</p>
+  </footer>
+
+  <div id="cart-overlay" onclick="handleOverlayClick(event)">
+    <div id="cart-panel">
+      <div id="cart-header">
+        <h3>🛒 Meu Carrinho</h3>
+        <button id="cart-close" onclick="toggleCart()">✕</button>
+      </div>
+      <div id="cart-items"></div>
+      <div id="cart-footer">
+        <div id="cart-total">Total: <span id="total-val">R$ 0,00</span></div>
+        <button id="whatsapp-btn" onclick="sendToWhatsApp()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Finalizar via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="product-modal" onclick="handleModalClick(event)">
+    <div id="product-modal-inner">
+      <button id="modal-close" onclick="closeModal()">✕</button>
+      
+      <div id="carousel-container">
+        <button class="carousel-btn prev" onclick="changeImage(-1)">❮</button>
+        <div id="product-modal-img"></div>
+        <button class="carousel-btn next" onclick="changeImage(1)">❯</button>
+      </div>
+
+      <div id="product-modal-name"></div>
+      <div id="product-modal-price"></div>
+      
+      <h4 style="margin-top: 1rem; color: var(--primary);">Descrição</h4>
+      <div id="product-modal-desc"></div>
+      
+      <h4 style="margin-top: 1rem; color: var(--primary);">Especificações Técnicas</h4>
+      <div id="product-modal-specs" class="product-specs"></div>
+
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;margin-top:1.5rem;">
+        <div class="qty-selector">
+          <button onclick="changeModalQty(-1)">−</button>
+          <span id="modal-qty">1</span>
+          <button onclick="changeModalQty(1)">+</button>
+        </div>
+        <small style="color:var(--muted)">Mínimo por pedido varia por produto</small>
+      </div>
+      <button id="modal-add-btn" onclick="addModalToCart()">Adicionar ao Carrinho</button>
+    </div>
+  </div>
+
+  <div id="admin-panel">
+    <div id="admin-topbar">
+      <h1>⚙️ Painel Administrativo — MetalMóveis</h1>
+      <button id="admin-logout" onclick="closeAdmin()">Sair do Admin ✕</button>
+    </div>
+    <div id="admin-nav">
+      <button class="admin-tab active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+      <button class="admin-tab" onclick="switchTab('products')">📦 Produtos</button>
+      <button class="admin-tab" onclick="switchTab('texts')">✏️ Textos do Site</button>
+      <button class="admin-tab" onclick="switchTab('whatsapp')">📱 WhatsApp</button>
+    </div>
+    <div id="admin-content">
+      <div id="tab-dashboard" class="admin-section active">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-card-label">Visitas Hoje</div><div class="stat-card-val" id="stat-visits">—</div></div>
+          <div class="stat-card blue"><div class="stat-card-label">Produtos no Carrinho</div><div class="stat-card-val" id="stat-cart-adds">—</div></div>
+          <div class="stat-card green"><div class="stat-card-label">Pedidos WhatsApp</div><div class="stat-card-val" id="stat-orders">—</div></div>
+          <div class="stat-card yellow"><div class="stat-card-label">Produto Mais Visto</div><div class="stat-card-val" style="font-size:1rem" id="stat-top">—</div></div>
+        </div>
+      </div>
+      </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
