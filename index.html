@@ -40,7 +40,7 @@
     <div id="products-grid"></div>
   </div>
 
-  <section id="sobre" id="about-section" class="about-bg">
+  <section id="sobre" id="about-section">
     <div class="section" style="max-width:1200px">
       <div class="about-grid">
         <div class="about-text">
@@ -123,6 +123,7 @@
       <button class="admin-tab" onclick="switchTab('whatsapp')">📱 WhatsApp</button>
     </div>
     <div id="admin-content">
+
       <div id="tab-dashboard" class="admin-section active">
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-card-label">Visitas Hoje</div><div class="stat-card-val" id="stat-visits">—</div></div>
@@ -130,8 +131,98 @@
           <div class="stat-card green"><div class="stat-card-label">Pedidos WhatsApp</div><div class="stat-card-val" id="stat-orders">—</div></div>
           <div class="stat-card yellow"><div class="stat-card-label">Produto Mais Visto</div><div class="stat-card-val" style="font-size:1rem" id="stat-top">—</div></div>
         </div>
+        <div class="admin-card">
+          <h3>📈 Visitas nos últimos 7 dias</h3>
+          <div id="visits-chart" class="bar-chart"></div>
+        </div>
+        <div class="admin-card">
+          <h3>🕐 Atividade Recente</h3>
+          <div id="activity-log"></div>
+        </div>
       </div>
+
+      <div id="tab-products" class="admin-section">
+        <div class="admin-card">
+          <h3 id="product-form-title">➕ Adicionar Novo Produto</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Nome do Produto</label><input type="text" id="prod-name" placeholder="Ex: Cadeira Industrial"></div>
+            <div class="form-group"><label>Categoria</label><input type="text" id="prod-cat" placeholder="Ex: Cadeiras"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Preço (R$)</label><input type="number" id="prod-price" placeholder="Ex: 149.90" step="0.01"></div>
+            <div class="form-group"><label>Unidade</label><input type="text" id="prod-unit" placeholder="Ex: por peça | caixa c/6"></div>
+          </div>
+          <div class="form-group"><label>Descrição</label><textarea id="prod-desc" placeholder="Descreva o produto..."></textarea></div>
+          <div class="form-group"><label>Especificações (separe por vírgula)</label><input type="text" id="prod-specs" placeholder="Ex: Suporta 150kg, Aço carbono, Altura 45cm"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Emoji Principal / Ícone</label><input type="text" id="prod-icon" placeholder="Ex: 🪑 ou 🛏️" maxlength="4"></div>
+            <div class="form-group"><label>Outros Emojis (Carrossel, separe por vírgula)</label><input type="text" id="prod-images" placeholder="Ex: 🪑, 📦, 📐"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Destaque (badge)</label><input type="text" id="prod-badge" placeholder="Ex: Mais Vendido"></div>
+          </div>
+          <input type="hidden" id="prod-edit-id" value="">
+          <div style="display:flex;gap:.7rem;flex-wrap:wrap">
+            <button class="btn-primary" onclick="saveProduct()">💾 Salvar Produto</button>
+            <button class="btn-primary" style="background:#6b7280" onclick="cancelEdit()">Cancelar</button>
+          </div>
+        </div>
+        <div class="admin-card">
+          <h3>📋 Produtos Cadastrados</h3>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>Ícone</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Destaque</th><th>Ações</th></tr></thead>
+              <tbody id="products-table-body"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
+
+      <div id="tab-texts" class="admin-section">
+        <div class="admin-card">
+          <h3>🏠 Textos Principais do Site</h3>
+          <div class="form-group"><label>Nome da Empresa (navbar e footer)</label><input type="text" id="txt-sitename" placeholder="MetalMóveis"></div>
+          <div class="form-group"><label>Aviso no Topo da Página</label><input type="text" id="txt-announce" placeholder="Ex: 🚚 Entrega para toda a região!"></div>
+          <div class="form-group"><label>Título Principal (Hero)</label><input type="text" id="txt-hero-title" placeholder="Título chamativo do site"></div>
+          <div class="form-group"><label>Subtítulo (Hero)</label><textarea id="txt-hero-sub" placeholder="Descrição curta do seu negócio"></textarea></div>
+          <div class="form-group"><label>Título Sobre Nós</label><input type="text" id="txt-about-title" placeholder="Tradição e Qualidade..."></div>
+          <div class="form-group"><label>Texto Sobre Nós (parágrafo 1)</label><textarea id="txt-about1"></textarea></div>
+          <div class="form-group"><label>Texto Sobre Nós (parágrafo 2)</label><textarea id="txt-about2"></textarea></div>
+          <button class="btn-primary" onclick="saveTexts()">💾 Salvar Textos</button>
+        </div>
+        <div class="admin-card">
+          <h3>📊 Números dos Destaques</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Stat 1</label><input type="text" id="txt-stat1" placeholder="+500"></div>
+            <div class="form-group"><label>Stat 2</label><input type="text" id="txt-stat2" placeholder="15"></div>
+            <div class="form-group"><label>Stat 3</label><input type="text" id="txt-stat3" placeholder="100%"></div>
+            <div class="form-group"><label>Stat 4</label><input type="text" id="txt-stat4" placeholder="24h"></div>
+          </div>
+          <div class="admin-card" style="margin:0">
+            <h3>📞 Rodapé</h3>
+            <div class="form-group"><label>Telefone / Endereço no rodapé</label><input type="text" id="txt-footer-phone" placeholder="📞 Fone: (00) 00000-0000 | 📍 Sua cidade"></div>
+          </div>
+          <button class="btn-primary" style="margin-top:1rem" onclick="saveTexts()">💾 Salvar Números</button>
+        </div>
+      </div>
+
+      <div id="tab-whatsapp" class="admin-section">
+        <div class="admin-card">
+          <h3>📱 Configuração do WhatsApp</h3>
+          <div class="form-group"><label>Número do WhatsApp (com DDD, sem espaços)</label><input type="text" id="wa-number" placeholder="5518999999999" id="wa-number"></div>
+          <div class="form-group"><label>Mensagem de abertura</label><textarea id="wa-message" placeholder="Olá! Gostaria de fazer um pedido:"></textarea></div>
+          <button class="btn-primary" onclick="saveWhatsApp()">💾 Salvar WhatsApp</button>
+        </div>
+        <div class="admin-card">
+          <h3>👁️ Prévia da mensagem</h3>
+          <div id="wa-preview" style="background:#f0f8f0;border-radius:8px;padding:1rem;font-size:.9rem;color:#1a1a2e;white-space:pre-wrap;line-height:1.6">
+            Configure o número e a mensagem acima para ver a prévia.
+          </div>
+          <button class="btn-primary" style="margin-top:1rem;background:#25d366" onclick="testWhatsApp()">Testar WhatsApp</button>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <div id="toast"></div>
